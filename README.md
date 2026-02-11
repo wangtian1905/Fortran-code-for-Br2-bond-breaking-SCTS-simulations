@@ -1,0 +1,2 @@
+# Fortran-code-for-Br2-bond-breaking-SCTS-simulations
+This program code package is used to simulate photoelectron momentum distributions from tunnel ionization of dissociating Br2 molecule. The algorithm is basing on Semiclassical Two Step (SCTS) model. And the simulated system includes the full states of Br2 bond-breaking: the ground Br2 molecule, bond breaking state (BBS), and the ground Br atom.  
