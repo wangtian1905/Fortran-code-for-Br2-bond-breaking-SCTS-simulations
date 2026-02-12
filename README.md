@@ -31,10 +31,11 @@ The radius criterions r_crt1 and r_crt2 devide the real space to three regions, 
 The total number of parallel threads: n_threads (The value should below the maximum cpu threads of the processor)
 
 ## Molecular system setting parameters: within module "MO_para"
-### The physical property of the simulated system is set by the parameters:
+### The physical properties of the simulated system is set by the parameters:
 (a) charge on each nuclei: nn_Z1, nn_Z2
 (b) Inernuclear distance: n_R_Atm, n_R_Mlc (set to zero for atomic case)
 (c) ionization potential: Ip1,Ip2
 (d) polarizability: apha_II_Atm, apha_II_Mlc
 ### The relative contributions of two trajectory groups are set by the parameter: prb_orb1. 
 This parameter defines the relative probability of one trajectory group to another. For example, in the bond-breaking state, the bound charge contribution of atomic (Atm) Br+ is equal to the diffuse charge contribution of molecular (Mlc) Br2+, so prb_orb1=0.5. While, when study the effect of ionization potential contribution from a pecific orbital (\pi_u orbital or 4p orbital), prb_orb1 can be set any value within (0,1).
+### By setting the molecular system parameters, the tunnel ionization dynamics can be established for the neutral dissociation states: Br2 ground molecule state, Br2 bond-breaking state (BBS), and Br ground atom state. The codes for these states are shown in the repository.  
