@@ -42,3 +42,4 @@ This parameter defines the relative probability of one trajectory group to anoth
 
 # Output simulation results
 The output electron momentum distribution is written as a matrix in the data file: "Spec_Z.txt". The two files "Spec_gridX.txt" and "Spec_gridY.txt" provide the coordinate axes for the matrix. The further electron distribution analysis can be carried out with the result matrix and axes.  
+Typical run time for a simulation (on laptop computer, Intel i7-8750H, use 10 cpu threads): about 10 hours for the ensemble size of 500000000. 
