@@ -41,5 +41,8 @@ This parameter defines the relative probability of one trajectory group to anoth
 ### By setting the molecular system parameters, the tunnel ionization dynamics can be established for the neutral dissociation states: Br2 molecule ground state, Br2 bond-breaking state (BBS), and Br atom ground state. The codes for these states are shown in the repository.  
 
 ## Output simulation results
-The output electron momentum distribution is written as a matrix in the data file: "Spec_Z.txt". The two files "Spec_gridX.txt" and "Spec_gridY.txt" provide the coordinate axes for the matrix. The further electron distribution analysis can be carried out with the result matrix and axes.  
+The output electron momentum distribution is written as a matrix in the data file: "Spec_Z.txt". The two files "Spec_gridX.txt" and "Spec_gridY.txt" provide the coordinate axes for the matrix. The demo result datasets are shown in the repository.
 Typical run time for a simulation (on laptop computer, Intel i7-8750H, use 10 cpu threads): about 10 hours for the ensemble size of 500000000. 
+
+## results analysis by normalized differential (ND) plot
+The simulated electron momentum distributions from different dissociation states can be further analyzed by doing normalized differential plot between a signal disttribution and a reference distribution. The results analysis code is: "SCTS_spec_ND_plot_fan_area_analysis.f90". The demo analysis results are shown in the repository.
