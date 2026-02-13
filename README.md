@@ -34,20 +34,20 @@ The radius criterions r_crt1 and r_crt2 devide the real space to three regions, 
 ## Open MPI parameters (within module "omp_para") <br>
 The total number of parallel threads: n_threads (The value should below the maximum cpu threads of the processor)
 
-## Molecular system setting parameters: within module "MO_para"
-### The physical properties of the simulated system is set by the parameters:
-(a) charge on each nuclei: nn_Z1, nn_Z2
-(b) Inernuclear distance: n_R_Atm, n_R_Mlc (set to zero for atomic case)
-(c) ionization potential: Ip1,Ip2
-(d) polarizability: apha_II_Atm, apha_II_Mlc
-### The relative contributions of two trajectory groups are set by the parameter: prb_orb1. 
-This parameter defines the relative probability of one trajectory group to another. For example, in the bond-breaking state, the bound charge contribution of atomic (Atm) Br+ is equal to the diffuse charge contribution of molecular (Mlc) Br2+, so prb_orb1=0.5. While, when study the effect of ionization potential contribution from a pecific orbital (\pi_u orbital or 4p orbital), prb_orb1 can be set any value within (0,1).
+## Molecular system setting parameters (within module "MO_para") <br>
+### The physical properties of the simulated system is set by the parameters <br>
+(a) charge on each nuclei: nn_Z1, nn_Z2 <br>
+(b) Inernuclear distance: n_R_Atm, n_R_Mlc (set to zero for atomic case) <br>
+(c) ionization potential: Ip1,Ip2 <br>
+(d) polarizability: apha_II_Atm, apha_II_Mlc <br>
+### The relative contributions of two trajectory groups <br> 
+ The contribution of the first trajectory group is defined by parameter prb_orb1. For example, in the bond-breaking state, the bound charge contribution of atomic (Atm) Br+ is equal to the diffuse charge contribution of molecular (Mlc) Br2+, so prb_orb1=0.5. While, when study the effect of ionization potential contribution from a pecific orbital (\pi_u orbital or 4p orbital), prb_orb1 can be set any value within (0,1). <br>
 
-By setting the molecular system parameters, the tunnel ionization dynamics can be established for the neutral dissociation states: Br2 molecule ground state, Br2 bond-breaking state (BBS), and Br atom ground state. The codes for these states are shown in the repository.  
+By setting the molecular system parameters, the tunnel ionization dynamics can be established for the neutral dissociation states: Br2 molecule ground state, Br2 bond-breaking state (BBS), and Br atom ground state. The codes for these states are shown in the repository. <br> 
 
-## Output simulation results
-The output electron momentum distribution is written as a matrix in the data file: "Spec_Z.txt". The two files "Spec_gridX.txt" and "Spec_gridY.txt" provide the coordinate axes for the matrix. The demo result datasets are shown in the repository.
-Typical run time for a simulation (on laptop computer, Intel i7-8750H, use 10 cpu threads): about 10 hours for the ensemble size of 500000000. 
+## Output simulation results <br>
+The output electron momentum distribution is written as a matrix in the data file: "Spec_Z.txt". The two files "Spec_gridX.txt" and "Spec_gridY.txt" provide the coordinate axes for the matrix. The demo result datasets are shown in the repository. <br>
+Typical run time for a simulation (on laptop computer, Intel i7-8750H, use 10 cpu threads): about 10 hours for the ensemble size of 500000000. <br>
 
 ## results analysis by normalized differential (ND) plot
 The simulated electron momentum distributions from different dissociation states can be further analyzed by doing normalized differential plot between a signal disttribution and a reference distribution. The results analysis code is: "SCTS_spec_ND_plot_fan_area_analysis.f90". The demo analysis results are shown in the repository.
