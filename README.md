@@ -19,19 +19,19 @@ Now, after build solution, the code will be compiled and can be run by select a 
 
 # Parameters setting guide for SCTS simulation
 
-## Laser pulse parameters: within module "lsr_para" in top. <br>
+## Laser pulse parameters (within module "lsr_para" in top) <br>
 Wavelength: L_L (in unit meter) <br>
 Intensity: L_I (in unit PW per cm squre) <br>
 Pulse shape: half trapezoid defined by plateau cycle number L_PC and attenuation cycle number L_TC. <br>
 
-## Simulation parameters: within module "sim_para" <br>
+## Simulation parameters (within module "sim_para") <br>
 Ensemble size: gn (recommended to set 500000000 or higher) <br>
 Tunnel ionization windows: tnl_t_lb, tnl_t_ub, and tnl_t_lb2, tnl_t_ub2. These two sets of parameters allow to study the interference between any two defined time windows. They are set for the same time window as default. The window length for multicycle simulation is 4 and single cycle simulation is 1. <br>  
 
-## Symplectic numerical integrator parameters: within module "Sym_ctrl"
-The radius criterions r_crt1 and r_crt2 devide the real space to three regions, in which three different time steps h1,2,3 are applied to accelerate the integration speed within a fair accuracy.  
+## Symplectic numerical integrator parameters (within module "Sym_ctrl") <br>
+The radius criterions r_crt1 and r_crt2 devide the real space to three regions, in which three different time steps h1,2,3 are applied to accelerate the integration speed within a fair accuracy. <br>  
 
-## Open MPI parameters: within module "omp_para"
+## Open MPI parameters (within module "omp_para") <br>
 The total number of parallel threads: n_threads (The value should below the maximum cpu threads of the processor)
 
 ## Molecular system setting parameters: within module "MO_para"
