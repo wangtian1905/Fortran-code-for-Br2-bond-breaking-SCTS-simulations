@@ -1,2 +1,3 @@
-This folder contains the example simulation results from the Br2 ground molecule ionization and the Br2 BBS ionization cases. The orginal output results written in .txt files, and their coutour plots in figures are both shown.
-In addition, the results of normalized differential (ND) plot analysis are shown in the subfolder.
+- This folder contains the example simulation results from the Br2 ground molecule ionization and the Br2 BBS ionization cases. The orginal output results written in .txt files, and their coutour plots in figures are both shown. <br>
+- In addition, the results of normalized differential (ND) plot analysis are shown in the ND plot analysis subfolder. <br>
+- Note: all raw result data are compressed to .7z files, please decompress them to see. <br>
