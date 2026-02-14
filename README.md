@@ -18,13 +18,14 @@ Installation time: 30-60 mins for oneAPI Base Toolkit and 45-90 mins for oneAPI 
 Now, after build solution, the code will be compiled and can be run by select a runing mode under Debug drop-down manu. For efficient calculation, please select "Start without debugging". <br>
 
 # Parameters setting guide for SCTS simulation
-In the simulation code, the top part shows the parameter modules, which control the simulated physics model and the program implementation.  
-```
+In the simulation code, the top part shows the parameter modules, which set the simulated physics model and control the program implementation. An example module for laser control is shown: <br>
+```fortran
 module lsr_para
 implicit none
 ......
 end module  
 ```
+Below are the instructions for the key parameter modules:
 ## Laser pulse parameters (within module "lsr_para" in top) <br>
 - Wavelength: L_L (in unit meter) <br>
 - Intensity: L_I (in unit PW per cm squre) <br>
