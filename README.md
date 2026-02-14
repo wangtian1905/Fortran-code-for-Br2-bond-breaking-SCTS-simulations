@@ -8,8 +8,8 @@ This program code package is used to simulate photoelectron momentum distributio
 Installation time of Visual Studio (VS): about 40 mins. <br>
 ## Environment setup 
 After installation of VS, then install Intel oneAPI Base Toolkit and Intel oneAPI HPC Toolkit one after one. The links for these two toolkits are below: <br>
---Intel oneAPI Base Toolkit: https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html <br>
---Intel oneAPI HPC Toolkit: https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit.html <br>
+- Intel oneAPI Base Toolkit: https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html <br>
+- Intel oneAPI HPC Toolkit: https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit.html <br>
 Installation time: 30-60 mins for oneAPI Base Toolkit and 45-90 mins for oneAPI HPC Toolkit. The toolkits will automatically be integrated in VS. <br>
 ## Parameters setup for Intel Fortran compiler: <br>
 (i) create a Fortran project in VS and paste the code. <br>
@@ -20,13 +20,13 @@ Now, after build solution, the code will be compiled and can be run by select a 
 # Parameters setting guide for SCTS simulation
 
 ## Laser pulse parameters (within module "lsr_para" in top) <br>
---Wavelength: L_L (in unit meter) <br>
---Intensity: L_I (in unit PW per cm squre) <br>
---Pulse shape: half trapezoid defined by plateau cycle number L_PC and attenuation cycle number L_TC. <br>
+- Wavelength: L_L (in unit meter) <br>
+- Intensity: L_I (in unit PW per cm squre) <br>
+- Pulse shape: half trapezoid defined by plateau cycle number L_PC and attenuation cycle number L_TC. <br>
 
 ## Simulation parameters (within module "sim_para") <br>
---Ensemble size: gn (recommended to set 500000000 or higher) <br>
---Tunnel ionization windows: tnl_t_lb, tnl_t_ub, and tnl_t_lb2, tnl_t_ub2. These two sets of parameters allow to study the interference between any two defined time windows. They are set for the same time window as default. The window length for multicycle simulation is 4 and single cycle simulation is 1. <br>  
+- Ensemble size: gn (recommended to set 500000000 or higher) <br>
+- Tunnel ionization windows: tnl_t_lb, tnl_t_ub, and tnl_t_lb2, tnl_t_ub2. These two sets of parameters allow to study the interference between any two defined time windows. They are set for the same time window as default. The window length for multicycle simulation is 4 and single cycle simulation is 1. <br>  
 
 ## Symplectic numerical integrator parameters (within module "Sym_ctrl") <br>
 The radius criterions r_crt1 and r_crt2 devide the real space to three regions, in which three different time steps h1,2,3 are applied to accelerate the integration speed within a fair accuracy. <br>  
@@ -36,10 +36,10 @@ The total number of parallel threads: n_threads (The value should below the maxi
 
 ## Molecular system setting parameters (within module "MO_para") <br>
 ### The physical properties of the simulated system is set by the parameters <br>
---charge on each nuclei: nn_Z1, nn_Z2 <br>
---Inernuclear distance: n_R_Atm, n_R_Mlc (set to zero for atomic case) <br>
---ionization potential: Ip1,Ip2 <br>
---polarizability: apha_II_Atm, apha_II_Mlc <br>
+- charge on each nuclei: nn_Z1, nn_Z2 <br>
+- Inernuclear distance: n_R_Atm, n_R_Mlc (set to zero for atomic case) <br>
+- ionization potential: Ip1,Ip2 <br>
+- polarizability: apha_II_Atm, apha_II_Mlc <br>
 ### The relative contributions of two trajectory groups <br> 
  The contribution of the first trajectory group is defined by parameter prb_orb1. For example, in the bond-breaking state, the bound charge contribution of atomic (Atm) Br+ is equal to the diffuse charge contribution of molecular (Mlc) Br2+, so prb_orb1=0.5. While, when study the effect of ionization potential contribution from a pecific orbital (\pi_u orbital or 4p orbital), prb_orb1 can be set any value within (0,1). <br>
 
