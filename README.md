@@ -1,5 +1,5 @@
 # Fortran-code-for-Br2-bond-breaking-SCTS-simulations
-This program code package is used to simulate photoelectron momentum distributions from tunnel ionization of dissociating Br2 molecule. The algorithm is basing on Semiclassical Two Step (SCTS) model for tunnel ionization. And the simulated system includes the full states of Br2 bond-breaking: the ground Br2 molecule, bond breaking state (BBS), and the ground Br atom. Since the identical algorithm, all codes have exactly the same structure, and the modeling of different dissociation state is realized by setting the physical system parameters. All codes are run on Intel Fortran compiler with Intel OpenMPI configuration to acheive the best optimized calculation speed.
+This program code package is used to simulate photoelectron momentum distributions from tunnel ionization of dissociating Br2 molecule. The algorithm is basing on Semiclassical Two Step (SCTS) model for tunnel ionization. And the simulated system includes the full states of Br2 bond-breaking: the ground Br2 molecule, bond breaking state (BBS), and the ground Br atom. Since the identical algorithm, all simulation codes have exactly the same structure, and the modeling of different dissociation state is realized by setting the physical system parameters. All codes are run on Intel Fortran compiler with Intel OpenMPI configuration to acheive the best optimized calculation speed.
 
 ## Recommended System requirements: 
 - Computer with Intel processors (8 gen Core or higher) <br>
@@ -18,7 +18,13 @@ Installation time: 30-60 mins for oneAPI Base Toolkit and 45-90 mins for oneAPI 
 Now, after build solution, the code will be compiled and can be run by select a runing mode under Debug drop-down manu. For efficient calculation, please select "Start without debugging". <br>
 
 # Parameters setting guide for SCTS simulation
-
+In the simulation code, the top part shows the parameter modules, which control the simulated physics model and the program implementation.  
+```
+module lsr_para
+implicit none
+......
+end module  
+```
 ## Laser pulse parameters (within module "lsr_para" in top) <br>
 - Wavelength: L_L (in unit meter) <br>
 - Intensity: L_I (in unit PW per cm squre) <br>
