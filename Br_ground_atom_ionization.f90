@@ -943,9 +943,7 @@ real*8::spec(1:len_spec)
 return
     end subroutine sta_ana_1D_wghtx
 !---------------------------------------------------------------------------------------------------------------
-!***************************Functions for GSZ potential (include multielectron screening effect)******************
 
-!Deleted!! Go to find test2 project!!
 
 
 subroutine sta_ana_1D_wght_lbl_dis(lbl_exp,len_dis,lbl_dis)
@@ -956,3 +954,4 @@ lbl_dis(int(lbl_exp))=lbl_dis(int(lbl_exp))+1
 return
 end subroutine sta_ana_1D_wght_lbl_dis
 !---------------------------------------------------------------------------------------------------------------
+
