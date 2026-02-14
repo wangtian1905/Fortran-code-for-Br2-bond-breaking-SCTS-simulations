@@ -2,9 +2,9 @@
 This program code package is used to simulate photoelectron momentum distributions from tunnel ionization of dissociating Br2 molecule. The algorithm is basing on Semiclassical Two Step (SCTS) model for tunnel ionization. And the simulated system includes the full states of Br2 bond-breaking: the ground Br2 molecule, bond breaking state (BBS), and the ground Br atom. Since the identical algorithm, all codes have exactly the same structure, and the modeling of different dissociation state is realized by setting the physical system parameters. All codes are run on Intel Fortran compiler with Intel OpenMPI configuration to acheive the best optimized calculation speed.
 
 ## Recommended System requirements: 
---Computer with Intel processors (8 gen Core or higher) <br>
---Windows10,11 <br>
---Visual Studio 2022 or later releases (version: Visual Studio Community) <br>
+- Computer with Intel processors (8 gen Core or higher) <br>
+- Windows10,11 <br>
+- Visual Studio 2022 or later releases (version: Visual Studio Community) <br>
 Installation time of Visual Studio (VS): about 40 mins. <br>
 ## Environment setup 
 After installation of VS, then install Intel oneAPI Base Toolkit and Intel oneAPI HPC Toolkit one after one. The links for these two toolkits are below: <br>
