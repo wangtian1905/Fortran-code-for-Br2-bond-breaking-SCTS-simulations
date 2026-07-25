@@ -779,7 +779,7 @@ d2=0.5d0*(a+b)
 d3=0.5d0*(a+b)
 d4=0.5d0*a
 
-if((rr1<R_M1).and.(rr2>R_M2))then
+
 
 px1=px+c1*h*partialt1(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
 rx1=rx+d1*h*px1
@@ -807,62 +807,6 @@ rx=rx3+d4*h*px
 py=py3+c4*h*partialt2(rx3,ry3,t3,n_Z1,n_Z2,n_R,apha_II)
 ry=ry3+d4*h*py
 
-else if((rr2<R_M2).and.(rr1>R_M1))then
-
-px1=px+c1*h*partialt1(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
-rx1=rx+d1*h*px1
-py1=py+c1*h*partialt2(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
-ry1=ry+d1*h*py1
-
-t1=t+h*d1
-
-px2=px1+c2*h*partialt1(rx1,ry1,t1,n_Z1,n_Z2,n_R,apha_II)
-rx2=rx1+d2*h*px2
-py2=py1+c2*h*partialt2(rx1,ry1,t1,n_Z1,n_Z2,n_R,apha_II)
-ry2=ry1+d2*h*py2
- 
-t2=t1+h*d2
-
-px3=px2+c3*h*partialt1(rx2,ry2,t2,n_Z1,n_Z2,n_R,apha_II)
-rx3=rx2+d3*h*px3
-py3=py2+c3*h*partialt2(rx2,ry2,t2,n_Z1,n_Z2,n_R,apha_II)
-ry3=ry2+d3*h*py3
- 
-t3=t2+h*d3
-
-px=px3+c4*h*partialt1(rx3,ry3,t3,n_Z1,n_Z2,n_R,apha_II)
-rx=rx3+d4*h*px
-py=py3+c4*h*partialt2(rx3,ry3,t3,n_Z1,n_Z2,n_R,apha_II)
-ry=ry3+d4*h*py
-
-else
-    
-px1=px+c1*h*partialt1(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
-rx1=rx+d1*h*px1
-py1=py+c1*h*partialt2(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
-ry1=ry+d1*h*py1
-
-t1=t+h*d1
-
-px2=px1+c2*h*partialt1(rx1,ry1,t1,n_Z1,n_Z2,n_R,apha_II)
-rx2=rx1+d2*h*px2
-py2=py1+c2*h*partialt2(rx1,ry1,t1,n_Z1,n_Z2,n_R,apha_II)
-ry2=ry1+d2*h*py2
- 
-t2=t1+h*d2
-
-px3=px2+c3*h*partialt1(rx2,ry2,t2,n_Z1,n_Z2,n_R,apha_II)
-rx3=rx2+d3*h*px3
-py3=py2+c3*h*partialt2(rx2,ry2,t2,n_Z1,n_Z2,n_R,apha_II)
-ry3=ry2+d3*h*py3
- 
-t3=t2+h*d3
-
-px=px3+c4*h*partialt1(rx3,ry3,t3,n_Z1,n_Z2,n_R,apha_II)
-rx=rx3+d4*h*px
-py=py3+c4*h*partialt2(rx3,ry3,t3,n_Z1,n_Z2,n_R,apha_II)
-ry=ry3+d4*h*py
-end if
 return
 end subroutine sym_algrthm
 !*****************************************************************************
