@@ -1,18 +1,4 @@
-﻿!  Github_Br2_SCTS_codes_full_for_Nat_Comm_final_clean.f90 
-!
-!  FUNCTIONS:
-!  Github_Br2_SCTS_codes_full_for_Nat_Comm_final_clean - Entry point of console application.
-!
 
-!****************************************************************************
-!
-!  PROGRAM: Github_Br2_SCTS_codes_full_for_Nat_Comm_final_clean
-!
-!  PURPOSE:  Entry point for the console application.
-!
-!****************************************************************************
-
- 
 module lsr_para
 implicit none
 !-----------------------------------------------------------------------------------------------
@@ -39,7 +25,7 @@ module sim_para
 use lsr_para
 implicit none
 !-----------------------------------------------------------------------------------------------
-integer,parameter::gn=500000000!500000000
+integer,parameter::gn=20000000!500000000
 real*8,parameter::ion_fbd_TC=4
 real*8,parameter::ion_fbd_tt=ion_fbd_TC*L_T
 !real*8,parameter::d0=4.31!<bond length of Br2 molecule><a.u.>
@@ -93,7 +79,7 @@ real*8,parameter::ne1=0.0 !<soft-core parameter for the first nucleus><a.u.>
 real*8,parameter::ne2=0.0 !<soft-core parameter for the second nucleus><a.u.>
 real*8,parameter::Ip1=0.457!0.434!<the ionization potential of Br2 pi_u orbital:0.457;for Br 4p orbital: 0.434><a.u.>
 real*8,parameter::Ip2=0.457!0.434!0.38655!0.38655!<the ionization potential of pi_g orbital><a.u.>
-real*8,parameter::prb_orb1=0.5!probability of the first trajectory group<contribution>
+real*8,parameter::prb_orb1=1.0!probability of the first trajectory group<contribution>
 real*8,parameter::orb_prb_chk1=0.0d0
 real*8,parameter::orb_prb_chk2=prb_orb1
 real*8,parameter::orb_prb_chk3=1.0d0
@@ -103,9 +89,9 @@ real*8,parameter::apha_dg=90.0 !<alignment angle of molecule><degree>!old varbl:
 real*8,parameter::apha=(apha_dg/180)*pi !<alignment angle of molecule><radian>
 real*8,parameter::n_R_Atm=4.3!0.0!4.3!4.3!<internucleus distance of ground Br2 molecule; for Br case, set zero!><a.u.>
 real*8,parameter::n_R_Mlc=4.3!0.0<internucleus distance of ground Br2 molecule; for Br case, set zero!><a.u.>
-real*8,parameter::apha_N=0.0!can be set within small range: 0.0~2.0!<polarizability of atom for considering stark shifted potential in initial state preparation><a.u.><This value represents the polarizability difference,not real polarizability!>
-real*8,parameter::apha_I=0.0!<polarizability of ion for considering stark shifted potential in initial state preparation><a.u.>
-real*8,parameter::apha_II_Atm=40!<atomic polarizability contribution for BBS ionization dynamics><atomic Br+:12;molecular ground Br2+:40;molecular stretched Br2+: 80><a.u.>
+real*8,parameter::apha_NN_Atm=12!can be set within small range: 0.0~2.0!<polarizability of atom for considering stark shifted potential in initial state preparation><a.u.><This value represents the polarizability difference,not real polarizability!>
+real*8,parameter::apha_NN_Mlc=40!<polarizability of ion for considering stark shifted potential in initial state preparation><a.u.>
+real*8,parameter::apha_II_Atm=12!<atomic polarizability contribution for BBS ionization dynamics><atomic Br+:12;molecular ground Br2+:40;molecular stretched Br2+: 80><a.u.>
 real*8,parameter::apha_II_Mlc=40!<molecular polarizability contribution for BBS ionization dynamics>atomic Br+:12;molecular ground Br2+:40;molecular stretched Br2+: 80><a.u.>
 integer,parameter::p_per_div_n=2000
 real*8,parameter::p_per_lb=-2.5
@@ -176,7 +162,8 @@ real*8::rn1,rn2,rn1_min,rn2_min
 real*8::dice_orb,Ip
 integer::orb_labl
 real*8::n_Z1,n_Z2,n_R,apha_II
- real*8::orb_dis_lbl
+real*8::orb_dis_lbl
+real*8::apha_N,apha_I
 !-----------------------------------------------------------------------------------------------
 !real*8::M_cos(1:len_Y,1:len_X),M_sin(1:len_Y,1:len_X),Spec_grdX(1:len_X),Spec_grdY(1:len_Y)
 !-----------------------------------------------------------------------------------------------
@@ -254,7 +241,7 @@ pper_max=3.0*(abs(Ex0)/sqrt(2*Ip))**0.5
 pper=random_grab(-2.d0,2.d0) !pper=random_grab((-pper_max),pper_max)
 px=0.0
 py=pper
-rx=tnl_extpt(Ex0,Ip)
+!rx=tnl_extpt(Ex0,Ip)
 !if(Ex0>0.0)then
 !rx=tnl_extpt0
 !else if(Ex0<0.0)then
@@ -269,13 +256,17 @@ if(orb_labl==1)then
     n_Z1=nn_Z1
     n_Z2=nn_Z2
     n_R=n_R_Mlc
-    apha_II=apha_II_Mlc
+    apha_N=apha_NN_Mlc
+    apha_I=apha_II_Mlc
+    rx=tnl_extpt(Ex0,Ip,apha_N,apha_I)
 else if(orb_labl==2)then
     Ip=Ip2
     n_Z1=nn_Z1
     n_Z2=nn_Z2
     n_R=n_R_Atm
-    apha_II=apha_II_Atm
+    apha_N=apha_NN_Atm
+    apha_I=apha_II_Atm
+        rx=tnl_extpt(Ex0,Ip,apha_N,apha_I)
 end if
 MO_ph=0.d0
 wght=tnl_wght(Ip,abs(Ex0),pper)
@@ -301,7 +292,7 @@ f_t1=0.0
 
 t=tnlt0
  S_phx=0.d0 
-S_phx0=H_ph(px,py,rx,ry,n_Z1,n_Z2,n_R,apha_II)
+S_phx0=H_ph(px,py,rx,ry,n_Z1,n_Z2,n_R, apha_I)
 ion_jdg=0
 h=h1
 
@@ -312,11 +303,11 @@ rn2_min=sqrt(rx**2+(ry+0.5*n_R)**2)
 do while(t<(T_PD+T_TD))
    
    
-call sym_adp_algrthm(px,py,rx,ry,t,h,n_Z1,n_Z2,n_R,apha_II)
+call sym_adp_algrthm(px,py,rx,ry,t,h,n_Z1,n_Z2,n_R, apha_I)
     !step-adaptive-Symplectic algrithm end*** 
          t=t+h 
     ! Do integral for clasical action***
-   S_phx1=H_ph(px,py,rx,ry,n_Z1,n_Z2,n_R,apha_II)
+   S_phx1=H_ph(px,py,rx,ry,n_Z1,n_Z2,n_R, apha_I)
    S_phx=S_phx+0.5*(S_phx0+S_phx1)*h
    S_phx0=S_phx1
    elec_rr=sqrt(rx**2+ry**2)
@@ -500,10 +491,10 @@ end subroutine tnlt0_grab
 !*****************************************************************************
 !                  Position function of tunneling exit point
 !*****************************************************************************
-real(kind=8) function tnl_extpt(E,Ip)
+real(kind=8) function tnl_extpt(E,Ip,apha_N,apha_I)
 use  MO_para
 implicit none
-real*8::Ipp,beta,re,E,Ip
+real*8::Ipp,beta,re,E,Ip,apha_N,apha_I
 
 Ipp=Ip+0.5*(apha_N-apha_I)*E**2
 beta=1-sqrt(2*Ipp)/2
@@ -807,7 +798,6 @@ rx=rx3+d4*h*px
 py=py3+c4*h*partialt2(rx3,ry3,t3,n_Z1,n_Z2,n_R,apha_II)
 ry=ry3+d4*h*py
 
-end if
 return
 end subroutine sym_algrthm
 !*****************************************************************************
@@ -899,4 +889,3 @@ lbl_dis(int(lbl_exp))=lbl_dis(int(lbl_exp))+1
 return
 end subroutine sta_ana_1D_wght_lbl_dis
 !---------------------------------------------------------------------------------------------------------------
-
