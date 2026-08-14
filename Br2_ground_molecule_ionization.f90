@@ -25,7 +25,7 @@ module sim_para
 use lsr_para
 implicit none
 !-----------------------------------------------------------------------------------------------
-integer,parameter::gn=20000000!500000000
+integer,parameter::gn=500000000!500000000
 real*8,parameter::ion_fbd_TC=4
 real*8,parameter::ion_fbd_tt=ion_fbd_TC*L_T
 !real*8,parameter::d0=4.31!<bond length of Br2 molecule><a.u.>
