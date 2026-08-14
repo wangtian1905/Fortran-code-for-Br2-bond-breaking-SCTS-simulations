@@ -46,7 +46,7 @@ The total number of parallel threads: n_threads (The value should below the maxi
 - charge on each nuclei: nn_Z1, nn_Z2 <br>
 - Inernuclear distance: n_R_Atm, n_R_Mlc (set to zero for atomic case) <br>
 - ionization potential: Ip1,Ip2 <br>
-- polarizability: apha_II_Atm, apha_II_Mlc <br>
+- polarizability: apha_NN_Atm, apha_II_Atm, apha_NN_Mlc, apha_II_Mlc <br>
 ### The relative contributions of two trajectory groups <br> 
  The contribution of the first trajectory group is defined by parameter prb_orb1. For example, in the bond-breaking state, the bound charge contribution of atomic (Atm) Br+ is equal to the diffuse charge contribution of molecular (Mlc) Br2+, so prb_orb1=0.5. While, when study the effect of ionization potential contribution from a pecific orbital (\pi_u orbital or 4p orbital), prb_orb1 can be set any value within (0,1). <br>
 
