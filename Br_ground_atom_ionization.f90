@@ -7,7 +7,7 @@ real*8,parameter::c=2.99792458E8 !<light speed><ISU:m/s>
 real*8,parameter::w0=4.1341374457476439368E16 !<unit conversion factor for circular frequency>
 real*8,parameter::I0=35.092d0 !<unit conversion factor for intensity><*10^15W/cm^2><PW/cm^2>
 real*8,parameter::t0=0.0242 !<unit conversion factor for time><fs>
-real*8,parameter::L_L=800.0E-9 !<wavelength><ISU:m>
+real*8,parameter::L_L=788.0E-9 !<wavelength><ISU:m>
 real*8,parameter::L_W=(2.0*pi*c/L_L)/w0 !<circular frequency><a.u.>
 real*8,parameter::L_T=(2*pi)/L_W !<duration time of one laser cycle><a.u.>
 real*8,parameter::L_I=0.05 !<laser intensity><ISU:PW/cm^2>
@@ -18,6 +18,7 @@ real*8,parameter::ceph=0.0  !<carrier envelope phase of laser fields><radian>
 real*8,parameter::T_PD=L_PC*L_T !<duration time of plateau of the laser fields><a.u.>
 real*8,parameter::T_TD=L_TC*L_T !<duration time of slope of the laser fields><a.u.>
 real*8,parameter::T_FD=L_FC*L_T !<duration time of free-fly of the electron><a.u.>
+real*8,parameter::eps=0.0 !<ellipticity of the laser fields>
 !-----------------------------------------------------------------------------------------------
 end module  
 
@@ -77,8 +78,8 @@ real*8,parameter::nn_Z2=0.5!0.5 !<nucleus charge for the second cucleus potentia
 real*8,parameter::n_Z=1.0!1.0 !<nucleus charge for the molecular ion when electron has flied far away from it(only for asymptotic momentum)><a.u.>
 real*8,parameter::ne1=0.0 !<soft-core parameter for the first nucleus><a.u.>
 real*8,parameter::ne2=0.0 !<soft-core parameter for the second nucleus><a.u.>
-real*8,parameter::Ip1=0.457!0.434!<the ionization potential of Br2 pi_u orbital:0.457;for Br 4p orbital: 0.434><a.u.>
-real*8,parameter::Ip2=0.434!0.434!0.38655!0.38655!<the ionization potential of pi_g orbital><a.u.>
+real*8,parameter::Ip1=0.434!Xe:0.4458!0.434!<the ionization potential of Br2 pi_u orbital:0.457;for Br 4p orbital: 0.434><a.u.>
+real*8,parameter::Ip2=0.434!Xe:0.4458!0.434!0.38655!0.38655!<the ionization potential of pi_g orbital><a.u.>
 real*8,parameter::prb_orb1=0.0!probability of the first trajectory group<contribution>
 real*8,parameter::orb_prb_chk1=0.0d0
 real*8,parameter::orb_prb_chk2=prb_orb1
@@ -88,7 +89,7 @@ real*8,parameter::R_M2=1.1!1.1!1.05!1.0!1.0125!1.0125!<radius of GSZ potential f
 real*8,parameter::apha_dg=90.0 !<alignment angle of molecule><degree>!old varbl:thta_dg
 real*8,parameter::apha=(apha_dg/180)*pi !<alignment angle of molecule><radian>
 real*8,parameter::n_R_Atm=0.0!0.0!4.3!4.3!<internucleus distance of ground Br2 molecule; for Br case, set zero!><a.u.>
-real*8,parameter::n_R_Mlc=4.3!0.0<internucleus distance of ground Br2 molecule; for Br case, set zero!><a.u.>
+real*8,parameter::n_R_Mlc=4.3!4.3!0.0<internucleus distance of ground Br2 molecule; for Br case, set zero!><a.u.>
 real*8,parameter::apha_NN_Atm=12!can be set within small range: 0.0~2.0!<polarizability of atom for considering stark shifted potential in initial state preparation><a.u.><This value represents the polarizability difference,not real polarizability!>
 real*8,parameter::apha_NN_Mlc=40!<polarizability of ion for considering stark shifted potential in initial state preparation><a.u.>
 real*8,parameter::apha_II_Atm=12!<atomic polarizability contribution for BBS ionization dynamics><atomic Br+:12;molecular ground Br2+:40;molecular stretched Br2+: 80><a.u.>
@@ -136,7 +137,7 @@ implicit none
 !-----------------------------------------------------------------------------------------------
 real*8::h,rr_crt
 real*8::dice_tnlt
-real*8::px,py,pz,rx,ry,rz,rr,t,tx,wght,MO_wght,tnlt0,pper,pper_max,Ex0,E00,tnl_extpt0,S_ph,S_phx,S_phx0,S_phx1,fnl_C_ph,MO_ph,Spec_max
+real*8::px,py,pz,rx,ry,r0,thta0,rz,rr,t,tx,wght,MO_wght,tnlt0,pper,pper_max,Ex0,Ey0,E0,E00,tnl_extpt0,S_ph,S_phx,S_phx0,S_phx1,fnl_C_ph,MO_ph,Spec_max
 real*8::E_e,elec_egy0,elec_rr,Ip_ph
 integer::chcka,chckb,chckb_ion,rjct
 real*8::chcka_t0,chcka_dt,chckb_px0,chckb_t0,chckb_dt
@@ -150,7 +151,7 @@ integer::i,j,k,ii,jj
 integer::thrd_num
 integer::ion_jdg
 integer::good_trj
-real*8,external::random_grab,tnl_extpt,tnl_wght,E,f,H_ph,elec_egy,MO_dnsty
+real*8,external::random_grab,tnl_extpt,tnl_wght,Ex,Ey,f,H_ph,elec_egy,MO_dnsty
 real*8::px0,pxx,MO_intgrl
 real*8::Spec(1:len_Y,1:len_X),Spec_wght(1:len_Y,1:len_X)
 real*8::M_cos(1:len_Y,1:len_X),M_sin(1:len_Y,1:len_X),Spec_grdX(1:len_X),Spec_grdY(1:len_Y)
@@ -223,9 +224,11 @@ end if
 !call tnlt0_grab(ttpk_wdw,ttcs_wdw,tnl_t_lb,tnl_t_ub,tnlt0)
 !pper=random_grab(pper_l,pper_u)
  
-Ex0=E(tnlt0)
+Ex0=Ex(tnlt0)
+Ey0=Ey(tnlt0)
+E0=sqrt(Ex0**2+Ey0**2)
 E00=sqrt(L_I/I0)
-if(abs(Ex0)<(E_jdg*E00))then
+if(E0<(E_jdg*E00))then
     good_trj=1
     cycle
 end if
@@ -239,17 +242,17 @@ end if
 
 pper_max=3.0*(abs(Ex0)/sqrt(2*Ip))**0.5
 pper=random_grab(-2.d0,2.d0) !pper=random_grab((-pper_max),pper_max)
-px=0.0
-py=pper
+!px=0.0
+!py=pper
 !rx=tnl_extpt(Ex0,Ip)
 !if(Ex0>0.0)then
 !rx=tnl_extpt0
 !else if(Ex0<0.0)then
 !    rx=-tnl_extpt(Ip,(-Ex0))
 !end if
-ry=0.0
+!ry=0.0
 
-p_per_i=int((pper-p_per_lb)/p_per_dlt)
+!p_per_i=int((pper-p_per_lb)/p_per_dlt)
 
 if(orb_labl==1)then
     Ip=Ip1
@@ -258,7 +261,7 @@ if(orb_labl==1)then
     n_R=n_R_Mlc
     apha_N=apha_NN_Mlc
     apha_I=apha_II_Mlc
-    rx=tnl_extpt(Ex0,Ip,apha_N,apha_I)
+    r0=tnl_extpt(E0,Ip,apha_N,apha_I)
 else if(orb_labl==2)then
     Ip=Ip2
     n_Z1=nn_Z1
@@ -266,12 +269,16 @@ else if(orb_labl==2)then
     n_R=n_R_Atm
     apha_N=apha_NN_Atm
     apha_I=apha_II_Atm
-        rx=tnl_extpt(Ex0,Ip,apha_N,apha_I)
+        r0=tnl_extpt(E0,Ip,apha_N,apha_I)
 end if
+thta0=atan2(Ey0,Ex0)
+rx=r0*cos(thta0)
+ry=r0*sin(thta0)
 MO_ph=0.d0
 wght=tnl_wght(Ip,abs(Ex0),pper)
 !write(24,*) py,wght
-
+px=-pper*sin(thta0)
+py=pper*cos(thta0)
 S_ph=0.0
 S_phx=0.0
 f_t0=0.0
@@ -292,7 +299,7 @@ f_t1=0.0
 
 t=tnlt0
  S_phx=0.d0 
-S_phx0=H_ph(px,py,rx,ry,n_Z1,n_Z2,n_R, apha_I)
+S_phx0=H_ph(px,py,rx,ry,t,n_Z1,n_Z2,n_R,apha_I)
 ion_jdg=0
 h=h1
 
@@ -307,7 +314,7 @@ call sym_adp_algrthm(px,py,rx,ry,t,h,n_Z1,n_Z2,n_R, apha_I)
     !step-adaptive-Symplectic algrithm end*** 
          t=t+h 
     ! Do integral for clasical action***
-   S_phx1=H_ph(px,py,rx,ry,n_Z1,n_Z2,n_R, apha_I)
+   S_phx1=H_ph(px,py,rx,ry,t,n_Z1,n_Z2,n_R,apha_I)
    S_phx=S_phx+0.5*(S_phx0+S_phx1)*h
    S_phx0=S_phx1
    elec_rr=sqrt(rx**2+ry**2)
@@ -339,7 +346,7 @@ call fnl_Coulomb_phase(px,py,rx,ry,fnl_C_ph)
 !end do 
 !write(23,500)px,py,rx,ry 
 !Ip_ph=(1/4)*(Ip+apha_N-apha_I)*Ex0**2
-Ip_ph=Ip+(1/2)*(apha_N-apha_I)*Ex0**2
+Ip_ph=Ip+(1/2)*(apha_N-apha_I)*E0**2
 S_ph=S_phx+fnl_C_ph+Ip_ph*tnlt0+MO_ph
 !S_ph=mod(S_phx,(2*pi))
 pz=0.0
@@ -449,16 +456,27 @@ end if
 return
 end function f
 
-real(kind=8) function E(t)
+real(kind=8) function Ex(t)
 use lsr_para
 implicit none
 real*8::t
 real*8,external::f
 real*8::E0
 E0=sqrt(L_I/I0)
-E=E0*f(t)*sin(L_W*t+ceph)
+Ex=E0*f(t)*sin(L_W*t+ceph)
 return
-    end function E
+end function Ex
+    
+real(kind=8) function Ey(t)
+use lsr_para
+implicit none
+real*8::t
+real*8,external::f
+real*8::E0
+E0=sqrt(L_I/I0)
+Ey=E0*f(t)*eps*cos(L_W*t+ceph)
+return
+end function Ey
 !*****************************************************************************
 !                  Subroutine for grabing electron initial tunneling time in all slopes of the laser waveform
 !*****************************************************************************
@@ -551,22 +569,23 @@ end function tnl_wght
 !*****************************************************************************
 !             potential function for integrating classical action(H_ph)  
 !*****************************************************************************
-real(kind=8) function H_ph(px,py,rx,ry,n_Z1,n_Z2,n_R,apha_II) ! ,n_Z1,n_Z2,n_R,apha_II
+real(kind=8) function H_ph(px,py,rx,ry,t,n_Z1,n_Z2,n_R,apha_II) ! ,n_Z1,n_Z2,n_R,apha_II
 use sim_para
 use MO_para
 implicit none
 real*8::px,py,rx,ry,t,n_Z1,n_Z2,n_R,apha_II
 real*8::V_r,grd_rx,grd_ry
 real*8::rr1,rr2
-real*8,external::partialt_u1x,partialt_u2x,partialt_l1x,partialt_l2x,omega_u,omega_l,partialt1,partialt2
-t=0.d0
-V_r=-n_Z1/sqrt((rx-0.5*n_R*cos(apha))**2+(ry-0.5*n_R*sin(apha))**2+ne1**2)-n_Z2/sqrt((rx+0.5*n_R*cos(apha))**2+(ry+0.5*n_R*sin(apha))**2+ne2**2)
-grd_rx=partialt1(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
-grd_ry=partialt2(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
+real*8,external::partialt_u1x,partialt_u2x,partialt_l1x,partialt_l2x,omega_u,omega_l,partialt1,partialt2,partialt1_ph,partialt2_ph
+real*8,external::Ex,Ey 
+!t=0.d0
+V_r=-n_Z1/sqrt((rx-0.5*n_R*cos(apha))**2+(ry-0.5*n_R*sin(apha))**2+ne1**2)-n_Z2/sqrt((rx+0.5*n_R*cos(apha))**2+(ry+0.5*n_R*sin(apha))**2+ne2**2)-apha_II*(Ex(t)*rx+Ey(t)*ry)*(rx**2+ry**2)**(-1.5)
+grd_rx=partialt1_ph(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
+grd_ry=partialt2_ph(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
 H_ph=0.5*(px**2.0+py**2.0)+V_r-(rx*grd_rx+ry*grd_ry)
 
 !end if
-return
+return  
 end function H_ph
 !*****************************************************************************
 !             Subroutine of ionization status judgement by electron energy
@@ -808,9 +827,9 @@ use MO_para
 implicit none
 real*8::rx,ry,t
 real*8::n_Z1,n_Z2,n_R,apha_II
-real*8,external::E 
+real*8,external::Ex,Ey 
 
-partialt1=n_Z1*(rx**2+(ry-0.5*n_R)**2)**(-1.5)*rx+n_Z2*(rx**2+(ry+0.5*n_R)**2)**(-1.5)*rx+E(t)-apha_II*E(t)*(rx*(-3)*(rx**2+ry**2)**(-2.5)*rx+(rx**2+ry**2)**(-1.5))
+partialt1=n_Z1*(rx**2+(ry-0.5*n_R)**2)**(-1.5)*rx+n_Z2*(rx**2+(ry+0.5*n_R)**2)**(-1.5)*rx+Ex(t)-apha_II*(Ex(t)*(rx**2+ry**2)**(-1.5)+(Ex(t)*rx+Ey(t)*ry)*(-3)*(rx**2+ry**2)**(-2.5)*rx)
 return
 end function partialt1
 
@@ -819,11 +838,37 @@ use MO_para
 implicit none
 real*8::rx,ry,t
 real*8::n_Z1,n_Z2,n_R,apha_II
-real*8,external::E
+real*8,external::Ex,Ey
 
-partialt2=n_Z1*(rx**2+(ry-0.5*n_R)**2)**(-1.5)*(ry-0.5*n_R)+n_Z2*(rx**2+(ry+0.5*n_R)**2)**(-1.5)*(ry+0.5*n_R)-apha_II*E(t)*rx*(-3)*(rx**2+ry**2)**(-2.5)*ry
+partialt2=n_Z1*(rx**2+(ry-0.5*n_R)**2)**(-1.5)*(ry-0.5*n_R)+n_Z2*(rx**2+(ry+0.5*n_R)**2)**(-1.5)*(ry+0.5*n_R)+Ey(t)-apha_II*(Ey(t)*(rx**2+ry**2)**(-1.5)+(Ex(t)*rx+Ey(t)*ry)*(-3)*(rx**2+ry**2)**(-2.5)*ry)
 return
     end function partialt2
+!************************************************************************************************
+    
+!*****************************************************************************
+!             Partial derivative function of phase integration (Note: contribution of electric field is removed!)
+!*****************************************************************************
+real(kind=8) function partialt1_ph(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
+use MO_para
+implicit none
+real*8::rx,ry,t
+real*8::n_Z1,n_Z2,n_R,apha_II
+real*8,external::Ex,Ey 
+
+partialt1_ph=n_Z1*(rx**2+(ry-0.5*n_R)**2)**(-1.5)*rx+n_Z2*(rx**2+(ry+0.5*n_R)**2)**(-1.5)*rx-apha_II*(Ex(t)*(rx**2+ry**2)**(-1.5)+(Ex(t)*rx+Ey(t)*ry)*(-3)*(rx**2+ry**2)**(-2.5)*rx)
+return
+end function partialt1_ph
+
+real(kind=8) function partialt2_ph(rx,ry,t,n_Z1,n_Z2,n_R,apha_II)
+use MO_para 
+implicit none
+real*8::rx,ry,t
+real*8::n_Z1,n_Z2,n_R,apha_II
+real*8,external::Ex,Ey
+
+partialt2_ph=n_Z1*(rx**2+(ry-0.5*n_R)**2)**(-1.5)*(ry-0.5*n_R)+n_Z2*(rx**2+(ry+0.5*n_R)**2)**(-1.5)*(ry+0.5*n_R)-apha_II*(Ey(t)*(rx**2+ry**2)**(-1.5)+(Ex(t)*rx+Ey(t)*ry)*(-3)*(rx**2+ry**2)**(-2.5)*ry)
+return
+    end function partialt2_ph
 !************************************************************************************************
 
 !*****************************************************************************
